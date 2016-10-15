@@ -10,7 +10,14 @@ import {
   StyleSheet
 } from 'react-native'
 
+
 var StopWatch = React.createClass({
+  getInitialState: function() { // Ran by React exactly one time, when the component is first created
+    // Returns an object, and always avoid putting logic into getInitialState()
+    return {
+      timeElapsed: null
+    }
+  },
   render: function(){
     return <View style={styles.container}>
       <View style={[styles.header, this.border('yellow')]}>
@@ -48,7 +55,11 @@ var StopWatch = React.createClass({
       </View>
   },
   handleStartPress: function(){
-    console.log('start was pressed');
+    //console.log('start was pressed');
+    var startTime = new Date();
+    this.setState({
+      timeElapsed: new Date() - startTime
+    });
   },
   border: function(color) {
     return {
