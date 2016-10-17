@@ -1,3 +1,4 @@
+var formatTime = require('minutes-seconds-milliseconds');
 import React from 'react';
 
 // USE ES15 style variable de-structuring to require these components from
@@ -23,7 +24,7 @@ var StopWatch = React.createClass({
       <View style={[styles.header, this.border('yellow')]}>
         <View style={[styles.timerWrapper, this.border('red')]}>
           <Text>
-            00:00.00
+            {formatTime(this.state.timeElapsed)}
           </Text>
         </View>
         <View style={[styles.buttonWrapper, this.border('green')]}>
@@ -57,9 +58,13 @@ var StopWatch = React.createClass({
   handleStartPress: function(){
     //console.log('start was pressed');
     var startTime = new Date();
-    this.setState({
-      timeElapsed: new Date() - startTime
-    });
+
+    // Updating state causes the screen to re-render
+    setInterval(() => { //anonymous fat arrow function call
+      this.setState({  // Always call this.setState to update state. Give object
+        timeElapsed: new Date() - startTime
+      });
+    }, 30);
   },
   border: function(color) {
     return {
